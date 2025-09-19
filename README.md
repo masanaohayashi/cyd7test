@@ -21,8 +21,11 @@
   - 依存ライブラリは Arduino IDE / CLI が自動で解決します
 
 ## リポジトリ構成
-- `JC1060P470_Arduino_GFX_Demo/JC1060P470_Arduino_GFX_Demo.ino` : メインスケッチ
-- `JC1060P470_Arduino_GFX_Demo/img_logo.h` : 480×320 の RGB565 ロゴデータ
+- `README.md` : プロジェクト概要とセットアップ手順
+- `pio_p4_test/platformio.ini` : PlatformIO 設定（ESP32-P4 ボード定義・ビルドフラグなど）
+- `pio_p4_test/src/main.cpp` : Arduino_GFX を用いたメインスケッチ
+- `pio_p4_test/include/img_logo.h` : 480×320 の RGB565 ロゴデータ
+- `pio_p4_test/patches/arduino_gfx_p4.patch` : GFX ライブラリ用 ESP32-P4 パッチ
 
 ## Arduino IDE でのビルド手順
 1. Arduino IDE を起動し、「ボードマネージャー」で Espressif の `esp32` パッケージをインストール（P4 対応版を選択）。
