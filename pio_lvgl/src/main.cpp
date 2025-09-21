@@ -33,7 +33,7 @@ static void lvgl_flush_cb(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t
     const int32_t w = area->x2 - area->x1 + 1;
     const int32_t h = area->y2 - area->y1 + 1;
 
-    gfx->draw16bitRGBBitmap(x, y, reinterpret_cast<const uint16_t *>(color_p), w, h);
+    gfx->draw16bitRGBBitmap(x, y, reinterpret_cast<uint16_t *>(color_p), w, h);
     lv_disp_flush_ready(disp);
 }
 
