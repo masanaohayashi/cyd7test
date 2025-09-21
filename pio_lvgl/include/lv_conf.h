@@ -3,7 +3,9 @@
 
 #include <stdint.h>
 
-#define LV_CONF_INCLUDE_SIMPLE 1
+#ifndef LV_CONF_INCLUDE_SIMPLE
+#define LV_CONF_INCLUDE_SIMPLE
+#endif
 
 #define LV_COLOR_DEPTH 16
 #define LV_COLOR_16_SWAP 0
