@@ -3,6 +3,7 @@
 
 # サンプルスケッチ一式（PlatformIO プロジェクトへ移植済みのため未使用）
 JC1060P470_Arduino_GFX_Demo/
+JC1060P470_touch/
 
 # PlatformIO ビルドキャッシュ / 依存ライブラリ（自動生成）
 pio_p4_test/.pio/
