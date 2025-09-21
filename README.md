@@ -26,6 +26,7 @@
 - `pio_p4_test/src/main.cpp` : Arduino_GFX を用いたメインスケッチ
 - `pio_p4_test/include/img_logo.h` : 480×320 の RGB565 ロゴデータ
 - `pio_p4_test/patches/arduino_gfx_p4.patch` : GFX ライブラリ用 ESP32-P4 パッチ
+- `pio_lvgl/` : LVGL + Arduino_GFX を用いた PlatformIO プロジェクト（画面描画のみ）
 
 ## Arduino IDE でのビルド手順
 1. Arduino IDE を起動し、「ボードマネージャー」で Espressif の `esp32` パッケージをインストール（P4 対応版を選択）。
@@ -91,6 +92,26 @@
    ```
 
 > **注意**: `pio_p4_test/.pio/libdeps/...` を削除・再生成するとライブラリが元に戻るため、再度パッチを適用してください。パッチファイルは `pio_p4_test/patches/arduino_gfx_p4.patch` にあります。
+
+### PlatformIO（pio_lvgl）で LVGL サンプルを動かす
+`pio_lvgl` でも同様に Arduino_GFX のパッチ適用が必要です。
+
+1. 依存を取得
+   ```bash
+   cd <このリポジトリのクローン先>
+   pio pkg install -d pio_lvgl
+   ```
+2. Arduino_GFX へのパッチ適用
+   ```bash
+   cd pio_lvgl/.pio/libdeps/esp32-p4-evboard/GFX\ Library\ for\ Arduino
+   patch -p1 < ../../../../patches/arduino_gfx_p4.patch
+   ```
+3. ビルド → 書き込み → モニタ
+   ```bash
+   cd ../../../../../
+   pio run -d pio_lvgl -t upload && pio device monitor -d pio_lvgl
+   ```
+   *`pio_lvgl` のサンプルは LVGL 8 系ライブラリで稼働し、PSRAM 上のダブルバッファを使用します。*
 
 ## トラブルシュート
 - **画面が真っ黒**: バックライト PIN (`GFX_BL = 23`) が `HIGH` で駆動されているか確認。
