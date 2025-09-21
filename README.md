@@ -22,11 +22,54 @@
 
 ## リポジトリ構成
 - `README.md` : プロジェクト概要とセットアップ手順
-- `pio_p4_test/platformio.ini` : PlatformIO 設定（ESP32-P4 ボード定義・ビルドフラグなど）
-- `pio_p4_test/src/main.cpp` : Arduino_GFX を用いたメインスケッチ
-- `pio_p4_test/include/img_logo.h` : 480×320 の RGB565 ロゴデータ
-- `pio_p4_test/patches/arduino_gfx_p4.patch` : GFX ライブラリ用 ESP32-P4 パッチ
-- `pio_lvgl/` : LVGL + Arduino_GFX を用いた PlatformIO プロジェクト（画面描画のみ）
+- `pio_p4_test/` : Arduino_GFX ベースの基本デモ（ロゴ描画・ベンチマーク）
+- `pio_lvgl/` : LVGL を使ったホワイトスクリーン + テキスト表示の最小サンプル
+- `pio_lvgl2/` : LVGL の簡易 UI デモ（ラベル・ボタン・スライダ）
+- `pio_lvgl_touch/` : TouchLib (GT911) 連携の 3×3 ボタングリッド
+- 各ディレクトリ内 `patches/arduino_gfx_p4.patch` : Arduino_GFX の ESP32-P4 対応パッチ
+
+## サンプル一覧と実行コマンド
+各プロジェクトは最初に依存解決と Arduino_GFX へのパッチ適用が必要です。以下のコマンドをリポジトリルートで実行すると、依存取得→パッチ適用→ビルド→書き込み→シリアルモニタ起動までを一気に行えます。
+
+### pio_p4_test（Arduino_GFX 基本デモ）
+- 内容: JC1060P470 用初期サンプル。ロゴ表示とベンチマークを実行。
+- 実行コマンド:
+  ```bash
+  pio pkg install -d pio_p4_test && \
+    (cd pio_p4_test/.pio/libdeps/esp32-p4-evboard/GFX\ Library\ for\ Arduino && patch -p1 < ../../patches/arduino_gfx_p4.patch) && \
+    pio run -d pio_p4_test -t upload && \
+    pio device monitor -d pio_p4_test
+  ```
+
+### pio_lvgl（ホワイトスクリーン + テキスト）
+- 内容: 真っ白な画面中央に `Helo from LVGL!` を描画する最小構成。
+- 実行コマンド:
+  ```bash
+  pio pkg install -d pio_lvgl && \
+    (cd pio_lvgl/.pio/libdeps/esp32-p4-evboard/GFX\ Library\ for\ Arduino && patch -p1 < ../../patches/arduino_gfx_p4.patch) && \
+    pio run -d pio_lvgl -t upload && \
+    pio device monitor -d pio_lvgl
+  ```
+
+### pio_lvgl2（LVGL UI デモ）
+- 内容: グレー背景にタイトル、ボタン、スライダを表示する UI サンプル。タッチは未サポート。
+- 実行コマンド:
+  ```bash
+  pio pkg install -d pio_lvgl2 && \
+    (cd pio_lvgl2/.pio/libdeps/esp32-p4-evboard/GFX\ Library\ for\ Arduino && patch -p1 < ../../patches/arduino_gfx_p4.patch) && \
+    pio run -d pio_lvgl2 -t upload && \
+    pio device monitor -d pio_lvgl2
+  ```
+
+### pio_lvgl_touch（タッチ対応 3×3 ボタングリッド）
+- 内容: TouchLib (GT911) 経由でタッチ座標を取得し、押したボタン番号を画面下部に表示。
+- 実行コマンド:
+  ```bash
+  pio pkg install -d pio_lvgl_touch && \
+    (cd pio_lvgl_touch/.pio/libdeps/esp32-p4-evboard/GFX\ Library\ for\ Arduino && patch -p1 < ../../../../patches/arduino_gfx_p4.patch) && \
+    pio run -d pio_lvgl_touch -t upload && \
+    pio device monitor -d pio_lvgl_touch
+  ```
 
 ## Arduino IDE でのビルド手順
 1. Arduino IDE を起動し、「ボードマネージャー」で Espressif の `esp32` パッケージをインストール（P4 対応版を選択）。

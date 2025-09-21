@@ -66,25 +66,12 @@ static void lvgl_port_init()
 static void create_demo_ui()
 {
     lv_obj_t *scr = lv_scr_act();
-    lv_obj_set_style_bg_color(scr, lv_color_hex(0x101010), LV_PART_MAIN);
+    lv_obj_set_style_bg_color(scr, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
 
-    lv_obj_t *title = lv_label_create(scr);
-    lv_label_set_text(title, "LVGL + Arduino_GFX (ESP32-P4)");
-    lv_obj_set_style_text_color(title, lv_color_hex(0x00FF99), LV_PART_MAIN);
-    lv_obj_set_style_text_font(title, &lv_font_montserrat_18, LV_PART_MAIN);
-    lv_obj_align(title, LV_ALIGN_TOP_MID, 0, 20);
-
-    lv_obj_t *btn = lv_btn_create(scr);
-    lv_obj_set_size(btn, 220, 70);
-    lv_obj_align(btn, LV_ALIGN_CENTER, 0, -20);
-
-    lv_obj_t *btn_label = lv_label_create(btn);
-    lv_label_set_text(btn_label, "Tap me");
-    lv_obj_center(btn_label);
-
-    lv_obj_t *slider = lv_slider_create(scr);
-    lv_obj_set_width(slider, 400);
-    lv_obj_align(slider, LV_ALIGN_BOTTOM_MID, 0, -60);
+    lv_obj_t *label = lv_label_create(scr);
+    lv_label_set_text(label, "Helo from LVGL!");
+    lv_obj_set_style_text_color(label, lv_color_hex(0x000000), LV_PART_MAIN);
+    lv_obj_align(label, LV_ALIGN_CENTER, 0, 0);
 }
 
 void setup()
@@ -99,7 +86,7 @@ void setup()
 
     gfx->begin();
     gfx->setRotation(0);
-    gfx->fillScreen(BLACK);
+    gfx->fillScreen(WHITE);
 
     lvgl_port_init();
     create_demo_ui();
