@@ -26,6 +26,7 @@
 - `pio_lvgl/` : LVGL を使ったホワイトスクリーン + テキスト表示の最小サンプル
 - `pio_lvgl2/` : LVGL の簡易 UI デモ（ラベル・ボタン・スライダ）
 - `pio_lvgl_touch/` : TouchLib (GT911) 連携の 3×3 ボタングリッド
+- `pio_sdcard/` : microSD (SD_MMC) 読み書き・削除 + LVGL UI
 - 各ディレクトリ内 `patches/arduino_gfx_p4.patch` : Arduino_GFX の ESP32-P4 対応パッチ
 
 ## サンプル一覧と実行コマンド
@@ -69,6 +70,16 @@
     (cd pio_lvgl_touch/.pio/libdeps/esp32-p4-evboard/GFX\ Library\ for\ Arduino && patch -p1 < ../../../../patches/arduino_gfx_p4.patch) && \
     pio run -d pio_lvgl_touch -t upload && \
     pio device monitor -d pio_lvgl_touch
+  ```
+
+### pio_sdcard（SD カード読み書きデモ）
+- 内容: microSD (SD_MMC) へファイルを書き込み / 読み込み / 削除し、結果を LVGL UI 上に表示。
+- 実行コマンド:
+  ```bash
+  pio pkg install -d pio_sdcard && \
+    (cd pio_sdcard/.pio/libdeps/esp32-p4-evboard/GFX\ Library\ for\ Arduino && patch -p1 < ../../../../patches/arduino_gfx_p4.patch) && \
+    pio run -d pio_sdcard -t upload && \
+    pio device monitor -d pio_sdcard
   ```
 
 ## Arduino IDE でのビルド手順
