@@ -1,0 +1,97 @@
+--- a/src/Arduino_GFX_Library.h
++++ b/src/Arduino_GFX_Library.h
+@@ -2,11 +2,15 @@
+ #define _ARDUINO_GFX_LIBRARIES_H_
+ 
+ #include "Arduino_DataBus.h"
++#if defined(ESP32)
++#include "soc/soc_caps.h"
++#endif
+ #include "databus/Arduino_AVRPAR8.h"
+ #include "databus/Arduino_UNOPAR8.h"
+ #include "databus/Arduino_AVRPAR16.h"
+ #include "databus/Arduino_DUEPAR16.h"
+ #include "databus/Arduino_ESP32DSIPanel.h"
++#if defined(ESP32) && (SOC_LCD_RGB_SUPPORTED) && !defined(ARDUINO_GFX_DISABLE_RGB_PANEL)
+ #include "databus/Arduino_ESP32LCD8.h"
+ #include "databus/Arduino_ESP32LCD16.h"
+ #include "databus/Arduino_ESP32PAR8.h"
+@@ -18,6 +22,7 @@
+ #include "databus/Arduino_ESP32PAR16QQ.h"
+ #include "databus/Arduino_ESP32QSPI.h"
+ #include "databus/Arduino_ESP32RGBPanel.h"
++#endif
+ #include "databus/Arduino_ESP32S2PAR8.h"
+ #include "databus/Arduino_ESP32S2PAR8Q.h"
+ #include "databus/Arduino_ESP32S2PAR16.h"
+@@ -85,7 +90,9 @@
+ #include "display/Arduino_R61529.h"
+ #include "display/Arduino_RM67162.h"
+ #include "display/Arduino_RM690B0.h"
++#if defined(ESP32) && (SOC_LCD_RGB_SUPPORTED) && !defined(ARDUINO_GFX_DISABLE_RGB_PANEL)
+ #include "display/Arduino_RGB_Display.h"
++#endif
+ #include "display/Arduino_SEPS525.h"
+ #include "display/Arduino_SH1106.h"
+ #include "display/Arduino_SH8601.h"
+--- a/src/databus/Arduino_ESP32RGBPanel.h
++++ b/src/databus/Arduino_ESP32RGBPanel.h
+@@ -19,7 +19,7 @@
+ 
+ //#if defined(ESP32) && (CONFIG_IDF_TARGET_ESP32S3)
+ 
+-#if defined(ESP32) && (CONFIG_IDF_TARGET_ESP32S3 || CONFIG_IDF_TARGET_ESP32P4)  //Modify
++#if defined(ESP32) && (SOC_LCD_RGB_SUPPORTED) && !defined(ARDUINO_GFX_DISABLE_RGB_PANEL)
+ 
+ #include "esp_lcd_panel_rgb.h"
+ #include "esp_lcd_panel_ops.h"
+--- a/src/databus/Arduino_ESP32RGBPanel.cpp
++++ b/src/databus/Arduino_ESP32RGBPanel.cpp
+@@ -3,7 +3,7 @@
+ #include "Arduino_ESP32RGBPanel.h"
+ 
+ //#if defined(ESP32) && (CONFIG_IDF_TARGET_ESP32S3)
+-#if defined(ESP32) && (CONFIG_IDF_TARGET_ESP32S3 || CONFIG_IDF_TARGET_ESP32P4)  //Modify
++#if defined(ESP32) && (SOC_LCD_RGB_SUPPORTED) && !defined(ARDUINO_GFX_DISABLE_RGB_PANEL)
+ Arduino_ESP32RGBPanel::Arduino_ESP32RGBPanel(
+     int8_t de, int8_t vsync, int8_t hsync, int8_t pclk,
+     int8_t r0, int8_t r1, int8_t r2, int8_t r3, int8_t r4,
+--- a/src/display/Arduino_RGB_Display.h
++++ b/src/display/Arduino_RGB_Display.h
+@@ -1,9 +1,12 @@
+ #pragma once
+ 
+ #include "../Arduino_DataBus.h"
++#if defined(ESP32)
++#include "soc/soc_caps.h"
++#endif
+ 
+ //#if defined(ESP32) && (CONFIG_IDF_TARGET_ESP32S3)
+-#if defined(ESP32) && (CONFIG_IDF_TARGET_ESP32S3 || CONFIG_IDF_TARGET_ESP32P4)  //Modify
++#if defined(ESP32) && (SOC_LCD_RGB_SUPPORTED)
+ 
+ #include "../Arduino_GFX.h"
+ #include "../databus/Arduino_ESP32RGBPanel.h"
+@@ -2494,4 +2497,4 @@
+ private:
+ };
+ 
+-#endif // #if defined(ESP32) && (CONFIG_IDF_TARGET_ESP32S3)
++#endif // defined(ESP32) && (SOC_LCD_RGB_SUPPORTED)
+--- a/src/display/Arduino_RGB_Display.cpp
++++ b/src/display/Arduino_RGB_Display.cpp
+@@ -1,7 +1,7 @@
+ #include "../Arduino_DataBus.h"
+ 
+ //#if defined(ESP32) && (CONFIG_IDF_TARGET_ESP32S3)
+-#if defined(ESP32) && (CONFIG_IDF_TARGET_ESP32S3 || CONFIG_IDF_TARGET_ESP32P4)  //Modify
++#if defined(ESP32) && (SOC_LCD_RGB_SUPPORTED)
+ 
+ #include "../Arduino_GFX.h"
+ #include "Arduino_RGB_Display.h"
+@@ -574,4 +574,4 @@
+   return _framebuffer;
+ }
+ 
+-#endif // #if defined(ESP32) && (CONFIG_IDF_TARGET_ESP32S3)
++#endif // defined(ESP32) && (SOC_LCD_RGB_SUPPORTED)
